@@ -11,7 +11,7 @@
 		
 		$servername = $_POST['servername'];
 		$slots = $_POST['slots'];
-		$port = $_POST['port'];
+		$port = rand(12000,13000);
 		$unixTime = time();
 		$realTime = date('[Y-m-d]-[H:i]',$unixTime);
 
