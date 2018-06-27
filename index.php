@@ -106,10 +106,6 @@
 										<input name="slots" required="required" type="text" placeholder="100" /> 
 									</p>
 									
-									<p> 
-										<label class="youpasswd" data-icon="p"> Port</label>
-										<input name="port" type="text" placeholder="9987 or blank for random" /> 
-									</p>
 
                                     <div class="g-recaptcha" data-sitekey="<?=$GOOGLE_CAPTCHA_PUBLICKEY?>"></div>
 									
