@@ -89,7 +89,7 @@
 									
 									<p> 
 										<label  class="uname" data-icon="u" > Server Port</label>
-										<input readonly type="text" value="<?=$createdport?>"/>
+										<input readonly type="text" value="<?php echo $createdport; ?>"/>
 									</p>
 									
 								</form>
