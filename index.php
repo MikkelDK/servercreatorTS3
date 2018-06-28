@@ -42,6 +42,7 @@
 
                 $token = $new_ts3['token'];
                 $createdport = $new_ts3['virtualserver_port'];
+		$link = printf('ts3server://31.172.80.111?port=%s&token=%s', $createdport, $token);
 
             } catch (Exception $e) {
                 echo "Error (ID " . $e->getCode() . ") <b>" . $e->getMessage() . "</b>";
