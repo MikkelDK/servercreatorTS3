@@ -22,3 +22,5 @@ Changelog.
 + Fix Bugs
 + Removed /?server_port=".$SERVER_PORT."
 + Removed $ts3->execute("clientupdate", array("client_nickname" => $NICK_QUERY));
+
+All credits to author of this script. Random portfeature requested by R4P3 net member mkll11one. (https://r4p3.net/threads/simple-clean-server-creator-web.2536/page-9#post-57785)
