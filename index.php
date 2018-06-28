@@ -42,7 +42,7 @@
 
                 $token = $new_ts3['token'];
                 $createdport = $new_ts3['virtualserver_port'];
-		$link = printf('ts3server://31.172.80.111?port=%s&token=%s', $createdport, $token);
+		$link = printf('ts3server://127.0.0.1?port=%s&token=%s', $createdport, $token); //Remove 127.0.0.1 and insert your TSRealServerIP.
 
             } catch (Exception $e) {
                 echo "Error (ID " . $e->getCode() . ") <b>" . $e->getMessage() . "</b>";
