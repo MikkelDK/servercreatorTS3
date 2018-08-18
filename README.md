@@ -11,10 +11,10 @@ Features:
 + When Server Created Show Name
 
 - To Do List:
--- Add reCAPTCHA Verification
+-- Add reCAPTCHA Verification (Fixed)
 
 + Edit data/config.php
-+ And Test.
++ And Enjoy.
 
 
 Changelog.
@@ -22,5 +22,7 @@ Changelog.
 + Fix Bugs
 + Removed /?server_port=".$SERVER_PORT."
 + Removed $ts3->execute("clientupdate", array("client_nickname" => $NICK_QUERY));
++ fixed slow loading/connection to page. (18-08-2018)
 
-All credits to author of this script. Random portfeature requested by R4P3 net member mkll11one. (https://r4p3.net/threads/simple-clean-server-creator-web.2536/page-9#post-57785)
+All credits to author of this script. 
+Random portfeature requested by R4P3 net member mkll11one. (https://r4p3.net/threads/simple-clean-server-creator-web.2536/page-9#post-57785)
