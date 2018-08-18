@@ -4,8 +4,6 @@
  * @file
  * TeamSpeak 3 PHP Framework
  *
- * $Id: Reply.php 10/11/2013 11:35:21 scp@orilla $
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,9 +18,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @package   TeamSpeak3
- * @version   1.1.23
  * @author    Sven 'ScP' Paulsen
- * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
  */
 
 /**
@@ -99,6 +96,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toString()
   {
+    // @todo: Replace magic `func_num_args` overload with argument
     return (!func_num_args()) ? $this->rpl->unescape() : $this->rpl;
   }
 
@@ -110,7 +108,8 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
   public function toLines()
   {
     if(!count($this->rpl)) return array();
-
+  
+    // @todo: Replace magic `func_num_args` overload with argument
     $list = $this->toString(0)->split(TeamSpeak3::SEPARATOR_LIST);
 
     if(!func_num_args())
@@ -129,7 +128,8 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
   public function toTable()
   {
     $table = array();
-
+  
+    // @todo: Replace magic `func_num_args` overload with argument
     foreach($this->toLines(0) as $cells)
     {
       $pairs = $cells->split(TeamSpeak3::SEPARATOR_CELL);
@@ -153,6 +153,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
   public function toArray()
   {
     $array = array();
+    // @todo: Replace magic `func_num_args` overload with argument
     $table = $this->toTable(1);
 
     for($i = 0; $i < count($table); $i++)
@@ -171,7 +172,8 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
         else
         {
           list($ident, $value) = $pair->split(TeamSpeak3::SEPARATOR_PAIR, 2);
-
+  
+          // @todo: Replace magic `func_num_args` overload with argument
           $array[$i][$ident->toString()] = $value->isInt() ? $value->toInt() : (!func_num_args() ? $value->unescape() : $value);
         }
       }
@@ -189,12 +191,13 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toAssocArray($ident)
   {
+    // @todo: Replace magic `func_num_args` overload with argument
     $nodes = (func_num_args() > 1) ? $this->toArray(1) : $this->toArray();
     $array = array();
 
     foreach($nodes as $node)
     {
-      if(array_key_exists($ident, $node))
+      if(isset($node[$ident]))
       {
         $array[(is_object($node[$ident])) ? $node[$ident]->toString() : $node[$ident]] = $node;
       }
@@ -209,11 +212,13 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
 
   /**
    * Returns an array containing the reply splitted in multiple rows and columns.
+   * @todo: Is seems like alias for `toArray()`. If no value added, remove it.
    *
    * @return array
    */
   public function toList()
   {
+    // @todo: Replace magic `func_num_args` overload with argument
     $array = func_num_args() ? $this->toArray(1) : $this->toArray();
 
     if(count($array) == 1)
@@ -231,6 +236,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toObjectArray()
   {
+    // @todo: Replace magic `func_num_args` overload with argument
     $array = (func_num_args() > 1) ? $this->toArray(1) : $this->toArray();
 
     for($i = 0; $i < count($array); $i++)
@@ -315,7 +321,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
       {
         $suffix = "";
       }
-
+      
       throw new TeamSpeak3_Adapter_ServerQuery_Exception($this->getErrorProperty("msg") . $suffix, $this->getErrorProperty("id"));
     }
   }
@@ -330,7 +336,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
   {
     foreach($rpl as $key => $val)
     {
-      if($val->startsWith(TeamSpeak3::GREET))
+      if($val->startsWith(TeamSpeak3::TS3_MOTD_PREFIX) || $val->startsWith(TeamSpeak3::TEA_MOTD_PREFIX) || (defined("CUSTOM_MOTD_PREFIX") && $val->startsWith(CUSTOM_MOTD_PREFIX)))
       {
         unset($rpl[$key]);
       }
