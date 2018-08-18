@@ -1,53 +1,42 @@
 <?php
-	date_default_timezone_set('America/Argentina/Buenos_Aires'); //Change Here!
+	date_default_timezone_set('Europe/Paris'); //Change Here to your locale timezone!
 	require_once("libraries/TeamSpeak3/TeamSpeak3.php");
 	include 'data/config.php';
-	
-	
-    $connect = "serverquery://".$USER_QUERY.":".$PASS_QUERY."@".$HOST_QUERY.":".$PORT_QUERY."";
-    $ts3 = TeamSpeak3::factory($connect);
-	
 	if (isset($_POST["create"])) {
-		
+		$connect = "serverquery://".$USER_QUERY.":".$PASS_QUERY."@".$HOST_QUERY.":".$PORT_QUERY."";
+    		$ts3 = TeamSpeak3::factory($connect);
 		$servername = $_POST['servername'];
 		$slots = $_POST['slots'];
 		$port = rand(12000,13000);
 		$unixTime = time();
-		$realTime = date('[Y-m-d]-[H:i]',$unixTime);
-
+		$realTime = date('[d-m-Y]-[H:i]',$unixTime);
         $create_array = [
             "virtualserver_name" => $servername,
             "virtualserver_maxclients" => $slots,
             "virtualserver_name_phonetic" => $realTime,
-            "virtualserver_hostbutton_tooltip" => "My Company",
-            "virtualserver_hostbutton_url" => "http://www.example.com",
-            "virtualserver_hostbutton_gfx_url" => "http://www.example.com/buttons/button01_24x24.jpg",
+            "virtualserver_hostbutton_tooltip" => "My Company", //edit tooltip
+            "virtualserver_hostbutton_url" => "http://www.example.com", //set url on hostbutton
+            "virtualserver_hostbutton_gfx_url" => "http://www.example.com/buttons/button01_24x24.jpg", //set icon on hostbutton
         ];
 		
 		if(!empty($port)) {
             array_merge($create_array, ["virtualserver_port" => $port]);
         }
-
         $curl = curl_init("https://www.google.com/recaptcha/api/siteverify");
         curl_setopt($curl, CURLOPT_POST, 2);
         curl_setopt($curl, CURLOPT_POSTFIELDS, ['secret' => $GOOGLE_CAPTCHA_PRIVATEKEY, 'response' => $_POST['g-recaptcha-response']]);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec ($curl);
         curl_close ($curl);
-
         if(json_decode($response, TRUE)['success']) {
-
             try {
                 $new_ts3 = $ts3->serverCreate($create_array);
-
                 $token = $new_ts3['token'];
                 $createdport = $new_ts3['virtualserver_port'];
-		$link = printf('ts3server://127.0.0.1?port=%s&token=%s', $createdport, $token); //Remove 127.0.0.1 and insert your TSRealServerIP.
-
+		$link = printf('ts3server://127.0.0.1?port=%s&token=%s', $createdport, $token); // remove 127.0.0.1 and set your serverIP on the place.
             } catch (Exception $e) {
                 echo "Error (ID " . $e->getCode() . ") <b>" . $e->getMessage() . "</b>";
             }
-
         }else {
             die;
         }
@@ -58,16 +47,16 @@
 <html lang="en" class="no-js">
     <head>
         <meta charset="UTF-8" />
-        <title>Simple Server Create</title>
+        <title>Simple TS3Server Creator</title>
         <link rel="stylesheet" type="text/css" href="css/demo.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-		<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+	<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
         <script src='https://www.google.com/recaptcha/api.js'></script>
 	</head>
     <body>
         <div class="container">
             <header>
-				<h1>Simple Server<span> Creator</span></h1>
+				<h1>Simple TS3Server<span> Creator</span></h1>
 			</header>
             <section>				
                 <div id="container_demo" >
@@ -121,7 +110,7 @@
 				</div>  
 			</section>
 			<footer>
-				<h1>Created By<span> EscuderoKevin</span> For <span> R4P3.NET </span></h1>
+				<h1>Created By<span> EscuderoKevin</span> For <span> R4P3.NET </span></h1> //maybe make a credit format.
 			</footer>
 		</div>
 	</body>
